@@ -18,4 +18,4 @@ clean:
 	rm ./build/cpp_template
 
 # re-{clean,build,run}
-re: clean build run
+re: clean build run test

@@ -1,9 +1,10 @@
 #!/bin/bash
 
 RED='\033[0;31m'
-YEL='\033[0;33m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 NORMAL='\033[0m'
-COL=12
+COL=15
 
 exit_status=0
 
@@ -17,17 +18,20 @@ function check_tool() {
   required=$3 || true
   if [ -x "$(command -v $1)" ]; then
     version=$($1 --version | grep -o -E "[0-9]+.[0-9]+(.[0-9]+)?" | head -1)
+
     if version_less $version $min_version; then
       printf "%-${COL}s found, ${RED}version: ${version}, need at least: ${min_version}${NORMAL}\n" $1
+      exit_status=1
     else
       printf "%-${COL}s found, version: ${version}\n" $1
       return 0
     fi
+
   elif $required; then
     printf "${RED}%-${COL}s not found, but required${NORMAL}\n" $1
     exit_status=1
   else
-    printf "${YEL}%-${COL}s not found, but optional${NORMAL}\n" $1
+    printf "${YELLOW}%-${COL}s not found, but optional${NORMAL}\n" $1
   fi
   return 1
 }
@@ -44,24 +48,31 @@ check_tool cmake 3.12.0
 check_tool ccmake 3.12.0 false
 
 # debugger
-check_tool gdb 10.0.0 false || check_tool lldb 11.0.0 false || {
+check_tool gdb 10.0.0 false ||
+  check_tool lldb 11.0.0 false || {
   echo -e "${RED}No supported debugger found${NORMAL}"
   exit_status=1
 }
 
 # utils
 check_tool nm
-check_tool ldd 0.0 false || check_tool otool 0.0 false || {
+check_tool ldd 0.0 false ||
+  check_tool otool 0.0 false || {
   echo -e "${RED}Missing ldd or otool${NORMAL}"
   exit_status=1
 }
 
 # tools
+check_tool clang-format 15.0
 check_tool valgrind
 check_tool kcachegrind
 check_tool cppcheck
-check_tool clang-format
 check_tool clang-tidy
 check_tool python3
 
-[ $exit_status -eq 0 ] && echo "Setup check found no issues!"
+printf "\n"
+if [ $exit_status -eq 0 ]; then
+  printf "${GREEN}%-${COL}s Setup found no issues! ${NORMAL}\n" $1
+else
+  printf "${RED}%-${COL}s Some of the checks failed! ${NORMAL}\n" $1
+fi
