@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "project (vsdbg | windows)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "requireExactSource": true,
+      "program": "${workspaceFolder}/extern/godot-engine/bin/godot.windows.editor.dev.x86_64.exe",
+      "args": [
+        "--debug",
+        "--verbose",
+        "--path",
+        "${workspaceFolder}/project"
+      ],
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "console": "internalConsole"
+    },
+    {
+      "name": "editor (vsdbg | windows)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "requireExactSource": true,
+      "program": "${workspaceFolder}/extern/godot-engine/bin/godot.windows.editor.dev.x86_64.exe",
+      "args": [
+        "--editor",
+        "--debug",
+        "--verbose",
+        "--path",
+        "${workspaceFolder}/project"
+      ],
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "console": "internalConsole"
+    }
+  ]
+}

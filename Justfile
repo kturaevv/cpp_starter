@@ -8,11 +8,14 @@ build:
 
 # run generated binary
 run:
-	./build/project_name
+	./build/cpp_base
 
+test:
+	./build/tests
+	
 # rm generated binary
 clean:
-	rm ./build/project_name
+	rm ./build/cpp_base
 
 # re-{clean,build,run}
 re: clean build run
