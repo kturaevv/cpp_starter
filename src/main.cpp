@@ -14,8 +14,8 @@ int main() {
     myMap.insert("orange", 14);
     myMap.remove("orange");
 
-    std::cout << myMap.get("banana") << std::endl;
-    std::cout << myMap.contains("banana") << std::endl;
+    myMap.get("banana");
+    myMap.contains("banana");
 
     myMap.read();
 

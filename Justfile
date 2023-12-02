@@ -8,14 +8,14 @@ build:
 
 # run generated binary
 run:
-	./build/cpp_base
+	./build/cpp_template
 
 test:
 	./build/tests
 	
 # rm generated binary
 clean:
-	rm ./build/cpp_base
+	rm ./build/cpp_template
 
 # re-{clean,build,run}
 re: clean build run

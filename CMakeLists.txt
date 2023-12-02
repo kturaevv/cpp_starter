@@ -19,7 +19,7 @@ file(GLOB_RECURSE SOURCE_FILES "src/*.[ch]pp")
 file(GLOB_RECURSE TEST_FILES "tests/*.[ch]pp")
 
 # Check source files that have been included
-message(STATUS " " ${SOURCE_FILES} ${TEST_FILES})
+include(cmake/print-source-files.cmake)
 
 # Add executable and link libraries if needed
 add_executable(cpp_template ${SOURCE_FILES})
@@ -32,4 +32,3 @@ target_link_libraries(cpp_template PRIVATE fmt::fmt)
 find_package(Catch2 3 REQUIRED)
 
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
-target_include_directories(tests PRIVATE ${Catch2_INCLUDE_DIRS})
