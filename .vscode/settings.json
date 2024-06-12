@@ -17,6 +17,7 @@
     "clang-format.language.cpp.style": "file",
     "clang-format.assumeFilename": ".clangformat",
     "C_Cpp.workspaceParsingPriority": "high",
+    "cmake.cmakePath": "/usr/bin/cmake",
     "cmake.format.allowOptionalArgumentIndentation": true,
     "cmake.automaticReconfigure": true,
     "cmake.buildBeforeRun": true,

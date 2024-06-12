@@ -4,7 +4,7 @@
 #include <list>
 #include <ranges>
 #include <unordered_map>
-#include <sstream> 
+#include <sstream>
 
 #include <catch2/catch_test_macros.hpp>
 
@@ -12,7 +12,7 @@
 
 
 TEST_CASE("HashMap basic operations", "[HashMap]") {
-    HashMap<std::string, int> myMap;
+    auto myMap = HashMap<std::string, int>::init();
 
     SECTION("Insertion and retrieval") {
         myMap.insert("apple", 5);
@@ -60,9 +60,9 @@ TEST_CASE("HashMap basic operations", "[HashMap]") {
         myMap.insert("banana", 10);
 
         REQUIRE(myMap.getSize() == 2);
-        REQUIRE(myMap.getBucketCount() == 10);
+        REQUIRE(myMap.getBucketCount() == 1);
 
-        HashMap<std::string, int> anotherMap(5);
+        auto anotherMap = HashMap<std::string, int>::init(5);
         REQUIRE(anotherMap.getBucketCount() == 5);
     }
 }

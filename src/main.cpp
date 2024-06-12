@@ -5,19 +5,20 @@
 #include "hashmap.hpp"
 
 int main() {
-    fmt::print("New Project!\n");
+    fmt::print("CPP Starter Project!\n");
 
-    HashMap<std::string, int> myMap;
-    myMap.insert("apple", 5);
-    myMap.insert("banana", 10);
+    auto hmap = HashMap<std::string, int>::init();
 
-    myMap.insert("orange", 14);
-    myMap.remove("orange");
+    hmap.insert("apple", 5);
+    hmap.insert("banana", 10);
 
-    myMap.get("banana");
-    myMap.contains("banana");
+    hmap.insert("orange", 14);
+    hmap.remove("orange");
 
-    myMap.read();
+    hmap.get("banana");
+    hmap.contains("banana");
+
+    hmap.read();
 
     return 0;
 }
