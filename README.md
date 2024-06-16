@@ -8,6 +8,8 @@ To build the template ensure first `vcpkg` is iniitalized:
 git config submodule.extern/vcpkg.ignore all
 # Download all extern packages
 git submodule update --init --recursive --depth 1
+# Initialize vcpkg
+extern/vcpkg/bootstrap-vcpkg.sh
 ```
 
 Now the project can be started. There are utility functions wrapped in `Justfile` to build

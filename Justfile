@@ -1,10 +1,10 @@
 # init the project ./build cmake
 init:
-	mkdir -p ./build && cd ./build && cmake ..
+	cmake --preset=default
 
 # rebuild with cmake
 build:
-	cmake --build ./build
+	cmake --build build
 
 # run generated binary
 run:
