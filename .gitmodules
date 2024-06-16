@@ -2,3 +2,4 @@
 	path = extern/vcpkg
 	url = https://github.com/microsoft/vcpkg.git
 	shallow = true
+	ignore = all
