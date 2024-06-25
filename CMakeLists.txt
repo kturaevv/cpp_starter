@@ -46,27 +46,27 @@ find_package(Catch2 3 REQUIRED)
 target_compile_options(
     ${PROJECT_NAME}
         PUBLIC
-    -fsanitize=address
-    -fno-omit-frame-pointer
-    -g
-    -O1
+            -fsanitize=address
+            -fno-omit-frame-pointer
+            -g
+            -O1
 )
 
 target_link_libraries(
     ${PROJECT_NAME}
         PUBLIC
-    -fsanitize=address
+            -fsanitize=address
         PRIVATE
-    fmt::fmt
-    fmt::fmt-header-only
+            fmt::fmt
+            fmt::fmt-header-only
 )
 
 target_link_libraries(
     ${TEST_NAME}
         PRIVATE
-    Catch2::Catch2WithMain
-    fmt::fmt
-    fmt::fmt-header-only
+            Catch2::Catch2WithMain
+            fmt::fmt
+            fmt::fmt-header-only
 )
 
 # ----------- [Optional] ------------ #

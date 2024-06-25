@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <iostream>
 #include <list>
-#include <ranges>
 #include <stdexcept>
 #include <vector>
 
@@ -14,6 +13,7 @@ private:
         KeyType key;
         ValueType value;
     };
+
     using Bucket = std::list<Entry>;
 
     std::vector<Bucket> _buckets;
@@ -22,10 +22,11 @@ private:
 
 private:
     // Private constructor
-    HashMap(size_t bucketCount) : _buckets(bucketCount), _size(0) {
-        if (bucketCount == 0) {
+    HashMap(size_t bucketCount)
+        : _buckets(bucketCount)
+        , _size(0) {
+        if (bucketCount == 0)
             throw std::invalid_argument("Bucket count must be greater than 0");
-        }
     }
 
     size_t _hash(const KeyType& key) const {
@@ -42,12 +43,14 @@ public:
         size_t index = _hash(key);
         auto& bucket = _buckets[index];
 
-        auto found = std::ranges::find_if(bucket, [&](const Entry& entry) { return entry.key == key; });
+        auto found = std::ranges::find_if(bucket, [&](const Entry& entry) {
+            return entry.key == key;
+        });
 
         if (found != bucket.end()) {
-            found->value = value; // Update the value if key already exists
+            found->value = value;  // Update the value if key already exists
         } else {
-            bucket.push_back({key, value});
+            bucket.push_back({ key, value });
             ++_size;
         }
     }
@@ -56,18 +59,21 @@ public:
         size_t index = _hash(key);
         const auto& bucket = _buckets[index];
 
-        return std::ranges::any_of(bucket, [&](const Entry& entry) { return entry.key == key; });
+        return std::ranges::any_of(bucket, [&](const Entry& entry) {
+            return entry.key == key;
+        });
     }
 
     const ValueType& get(const KeyType& key) const {
         size_t index = _hash(key);
         const auto& bucket = _buckets[index];
 
-        auto found = std::ranges::find_if(bucket, [&](const Entry& entry) { return entry.key == key; });
+        auto found = std::ranges::find_if(bucket, [&](const Entry& entry) {
+            return entry.key == key;
+        });
 
-        if (found != bucket.end()) {
+        if (found != bucket.end())
             return found->value;
-        }
         throw std::out_of_range("Key not found in HashMap");
     }
 
@@ -75,7 +81,9 @@ public:
         size_t index = _hash(key);
         auto& bucket = _buckets[index];
 
-        auto found = std::ranges::find_if(bucket, [&](const Entry& entry) { return entry.key == key; });
+        auto found = std::ranges::find_if(bucket, [&](const Entry& entry) {
+            return entry.key == key;
+        });
 
         if (found != bucket.end()) {
             bucket.erase(found);
@@ -83,16 +91,18 @@ public:
         }
     }
 
-    size_t getSize() const { return _size; }
+    size_t getSize() const {
+        return _size;
+    }
 
-    size_t getBucketCount() const { return _buckets.size(); }
+    size_t getBucketCount() const {
+        return _buckets.size();
+    }
 
     void read() const {
         std::cout << "All key-value pairs in the HashMap:" << std::endl;
-        for (const auto& bucket : _buckets) {
-            for (const auto& entry : bucket) {
+        for (const auto& bucket : _buckets)
+            for (const auto& entry : bucket)
                 std::cout << "Key: " << entry.key << ", Value: " << entry.value << std::endl;
-            }
-        }
     }
 };

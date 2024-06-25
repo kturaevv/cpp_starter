@@ -31,20 +31,20 @@ BinPackArguments: true
 BinPackParameters: true
 BreakBeforeBraces: Custom
 BraceWrapping:
-  AfterCaseLabel: true
-  AfterClass: true
-  AfterControlStatement: Always
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
   AfterEnum: false
-  AfterFunction: true
-  AfterNamespace: true
-  AfterObjCDeclaration: true
-  AfterStruct: true
-  AfterUnion: true
-  AfterExternBlock: true
-  BeforeCatch: true
-  BeforeElse: true
+  AfterFunction: false
+  AfterNamespace: false
+  AfterObjCDeclaration: false
+  AfterStruct: false 
+  AfterUnion: false 
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
   BeforeLambdaBody: false
-  BeforeWhile: true
+  BeforeWhile: false
   IndentBraces: false
   SplitEmptyFunction: true
   SplitEmptyRecord: true

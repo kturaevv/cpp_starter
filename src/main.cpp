@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <fmt/core.h>
 
 #include "hashmap.hpp"
