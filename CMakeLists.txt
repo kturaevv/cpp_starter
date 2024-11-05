@@ -1,84 +1,72 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.23.0)
 
-set(PROJECT_NAME cpp_starter)
+set(PROJECT_NAME engine)
 set(TEST_NAME tests)
 
-project(${PROJECT_NAME} VERSION 1.0)
+# Project definition
+project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
 
-option(
-    AUTOFORMAT_SRC_ON_CONFIGURE
-    "If enabled, clang-format will be used to format all sources in src/ during configuration"
-        ON
-)
+# Common compile options
+# Optional source formatting and source listing options
+option(AUTOFORMAT_SRC_ON_CONFIGURE "Format sources with clang-format on configuration" ON)
+option(LIST_SOURCE_FILES "Print all source files during configuration" ON)
 
-option(
-    LIST_SOURCE_FILES
-    "If enabled, during project configuration, cmake will print out all files included in build"
-        ON
-)
+# Define module path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
-add_compile_options(-Wall -Wextra -Werror)
+# Locate and include source files
+file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
-# Set C++ standard and compile options
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_EXTENSIONS ON)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_COLOR_DIAGNOSTICS ON)
-set(CMAKE_MESSAGE_LOG_LEVEL STATUS)
-
-message(STATUS "C++ compiler PATH: " ${CMAKE_CXX_COMPILER})
-
-# Include cmake module
-list(APPEND CMAKE_MODULE_PATH
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/"
-)
-
-# Set source files to include
-file(GLOB_RECURSE SOURCE_FILES "src/*.[ch]pp")
-file(GLOB_RECURSE TEST_FILES "tests/*.[ch]pp")
-
+# Main executable
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-add_executable(${TEST_NAME} ${TEST_FILES})
 
+# External dependencies
 find_package(fmt CONFIG REQUIRED)
-find_package(Catch2 3 REQUIRED)
 
-target_compile_options(
-    ${PROJECT_NAME}
-        PUBLIC
-            -fsanitize=address
-            -fno-omit-frame-pointer
-            -g
-            -O1
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt fmt::fmt-header-only)
 
-target_link_libraries(
-    ${PROJECT_NAME}
-        PUBLIC
-            -fsanitize=address
-        PRIVATE
-            fmt::fmt
-            fmt::fmt-header-only
-)
+# Debug-specific settings (inherited via presets)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Debug mode detected: Enabling AddressSanitizer and adding tests")
 
-target_link_libraries(
-    ${TEST_NAME}
-        PRIVATE
-            Catch2::Catch2WithMain
-            fmt::fmt
-            fmt::fmt-header-only
-)
+    add_compile_options(
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Werror
+        -Wno-unused-variable
+        -Wno-infinite-recursion
+        -Werror=implicit-function-declaration
+        -Wshadow
+        -Wuninitialized
+        -Wunused-label
+        -Wunused-lambda-capture
+    )
 
-# ----------- [Optional] ------------ #
-message(STATUS
-    "Adding cmake directory for access: "
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
+    # Enable AddressSanitizer in Debug mode
+    target_compile_options(${PROJECT_NAME} PUBLIC -fsanitize=address -fno-omit-frame-pointer)
+    target_link_libraries(${PROJECT_NAME} PUBLIC -fsanitize=address)
 
-if(LIST_SOURCE_FILES MATCHES ON)
+    # Locate and include test files
+    file(GLOB_RECURSE TEST_FILES "tests/*.cpp")
+    add_executable(${TEST_NAME} ${TEST_FILES})
+
+    # External dependency for tests
+    find_package(Catch2 3 REQUIRED)
+
+    # Link tests to dependencies
+    target_link_libraries(${TEST_NAME} PRIVATE Catch2::Catch2WithMain fmt::fmt fmt::fmt-header-only)
+endif()
+
+# Option to print source files
+if(LIST_SOURCE_FILES)
     include(print-source-files)
 endif()
 
-if(AUTOFORMAT_SRC_ON_CONFIGURE MATCHES ON)
+# Option to auto-format sources
+if(AUTOFORMAT_SRC_ON_CONFIGURE)
     include(clang-format)
 endif()
+
+# Output the C++ compiler path for debugging purposes
+message(STATUS "C++ Compiler: ${CMAKE_CXX_COMPILER}")
