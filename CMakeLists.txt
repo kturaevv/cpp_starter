@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23.0)
 
-set(PROJECT_NAME engine)
+set(PROJECT_NAME cpp_starter)
 set(TEST_NAME tests)
 
 # Project definition
@@ -25,10 +25,12 @@ find_package(fmt CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt fmt::fmt-header-only)
 
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # Debug-specific settings (inherited via presets)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     message(STATUS "Debug mode detected: Enabling AddressSanitizer and adding tests")
 
+    add_compile_options(${CMAKE_CXX_FLAGS})
     add_compile_options(
         -Wall
         -Wextra

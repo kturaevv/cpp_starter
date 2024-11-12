@@ -11,6 +11,7 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Default",
                 "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja",
                 "CMAKE_C_COMPILER": "clang-18",
                 "CMAKE_CXX_STANDARD": "23",

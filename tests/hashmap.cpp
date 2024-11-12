@@ -1,15 +1,9 @@
-#include <algorithm>
-#include <functional>
 #include <iostream>
-#include <list>
-#include <ranges>
-#include <unordered_map>
 #include <sstream>
 
 #include <catch2/catch_test_macros.hpp>
 
 #include "../src/hashmap.hpp"
-
 
 TEST_CASE("HashMap basic operations", "[HashMap]") {
     auto myMap = HashMap<std::string, int>::init();
